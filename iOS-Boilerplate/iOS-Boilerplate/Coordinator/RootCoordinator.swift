@@ -18,11 +18,23 @@ class RootCoordinator: @preconcurrency BaseCoordinator {
     }
     
     func start() {
-        let vc = PokemonListViewController(viewModel: PokemonListViewModel())
+        let vc = PokemonListViewController(
+            viewModel: PokemonListViewModel(
+                apiClient: PokemonAPIClient()
+            ),
+            coordinator: self
+        )
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func moveToDetail(id: Int) {
+    func moveToDetail(pokemonName: String) {
+        let vc = PokemonDetailViewController(
+            viewModel: PokemonDetailsViewModel(
+                pokemonName: pokemonName,
+                apiClient: PokemonAPIClient()
+            )
+        )
         
+        navigationController.pushViewController(vc, animated: false)
     }
 }

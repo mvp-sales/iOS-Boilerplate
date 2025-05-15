@@ -9,6 +9,7 @@ import Foundation
 
 protocol PokemonAPI {
     func loadPokemons(offset: Int) async -> Result<PokemonListResponse, PokemonAPIError>
+    func getPokemonDetails(pokemonName: String) async -> Result<PokemonDetailsResponse, PokemonAPIError> 
 }
 
 class PokemonAPIClient: PokemonAPI {
@@ -26,6 +27,24 @@ class PokemonAPIClient: PokemonAPI {
         }
 
         guard let pokemonData = try? JSONDecoder().decode(PokemonListResponse.self, from: data) else {
+            return Result.failure(PokemonAPIError.generalError)
+        }
+        
+        return Result.success(pokemonData)
+    }
+    
+    func getPokemonDetails(pokemonName: String) async -> Result<PokemonDetailsResponse, PokemonAPIError> {
+        let url = baseURL.appendingPathComponent("pokemon").appendingPathComponent(pokemonName)
+        guard let (data, response) = try? await URLSession.shared.data(from: url) else {
+            return Result.failure(PokemonAPIError.generalError)
+        }
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              200..<300 ~= httpResponse.statusCode else {
+            return Result.failure(PokemonAPIError.generalError)
+        }
+
+        guard let pokemonData = try? JSONDecoder().decode(PokemonDetailsResponse.self, from: data) else {
             return Result.failure(PokemonAPIError.generalError)
         }
         

@@ -9,5 +9,5 @@ import Foundation
 
 protocol BaseCoordinator {
     func start()
-    func moveToDetail(id: Int)
+    func moveToDetail(pokemonName: String)
 }

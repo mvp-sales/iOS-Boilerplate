@@ -12,10 +12,12 @@ class PokemonListViewController: UIViewController {
     
     private let pokemonListView: PokemonListView
     private let viewModel: PokemonListViewModel
+    private let coordinator: BaseCoordinator
     
-    init(viewModel: PokemonListViewModel) {
+    init(viewModel: PokemonListViewModel, coordinator: BaseCoordinator) {
         self.pokemonListView = PokemonListView()
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,7 +29,6 @@ class PokemonListViewController: UIViewController {
         view = pokemonListView
         pokemonListView.delegate = self
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +61,13 @@ extension PokemonListViewController: PokemonListViewDelegate {
         cell.configure(data: viewModel.items[indexPath.row])
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard indexPath.row < viewModel.itemsCount else { return }
+        
+        let pokemon = viewModel.items[indexPath.row]
+        coordinator.moveToDetail(pokemonName: pokemon.name)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

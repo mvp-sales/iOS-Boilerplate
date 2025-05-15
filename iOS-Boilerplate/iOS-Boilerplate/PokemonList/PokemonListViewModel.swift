@@ -17,10 +17,14 @@ class PokemonListViewModel {
         _items
     }
     private var _items: [PokemonData] = []
-    private let apiClient: PokemonAPI = PokemonAPIClient()
+    private let apiClient: PokemonAPI
     
     var onItemsLoaded: (() -> ())?
     var onError: ((String) -> ())?
+    
+    init(apiClient: PokemonAPI) {
+        self.apiClient = apiClient
+    }
     
     func loadPokemons() async {
         let result = await apiClient.loadPokemons(offset: itemsCount)
