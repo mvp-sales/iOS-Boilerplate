@@ -8,33 +8,22 @@
 import Foundation
 import UIKit
 
-@MainActor
-class RootCoordinator: @preconcurrency BaseCoordinator {
+class RootCoordinator: BaseCoordinator {
     
-    private var navigationController: UINavigationController
-    
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
+    private let window: UIWindow
+    private var childCoordinator: PokemonListCoordinator?
+
+    init(window: UIWindow) {
+        self.window = window
     }
     
     func start() {
-        let vc = PokemonListViewController(
-            viewModel: PokemonListViewModel(
-                apiClient: PokemonAPIClient()
-            ),
-            coordinator: self
-        )
-        navigationController.pushViewController(vc, animated: false)
-    }
-    
-    func moveToDetail(pokemonName: String) {
-        let vc = PokemonDetailViewController(
-            viewModel: PokemonDetailsViewModel(
-                pokemonName: pokemonName,
-                apiClient: PokemonAPIClient()
-            )
-        )
-        
-        navigationController.pushViewController(vc, animated: false)
+        let navigationController = UINavigationController()
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
+
+        let listCoordinator: PokemonListCoordinator = PokemonListCoordinatorImpl(navigationController: navigationController)
+        self.childCoordinator = listCoordinator
+        listCoordinator.start()
     }
 }

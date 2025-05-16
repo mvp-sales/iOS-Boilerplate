@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-@MainActor
 class PokemonListViewModel {
     var itemsCount: Int {
         _items.count
@@ -18,23 +17,36 @@ class PokemonListViewModel {
     }
     private var _items: [PokemonData] = []
     private let apiClient: PokemonAPI
+    private let coordinator: PokemonListCoordinator
     
     var onItemsLoaded: (() -> ())?
     var onError: ((String) -> ())?
     
-    init(apiClient: PokemonAPI) {
+    init(
+        coordinator: PokemonListCoordinator,
+        apiClient: PokemonAPI
+    ) {
+        self.coordinator = coordinator
         self.apiClient = apiClient
     }
     
-    func loadPokemons() async {
-        let result = await apiClient.loadPokemons(offset: itemsCount)
-        
-        switch(result) {
-        case .success(let pokemonListData):
-            _items = pokemonListData.results
-            onItemsLoaded?()
-        case .failure(let error):
-            onError?(error.localizedDescription)
+    func loadPokemons() {
+        Task {
+            let result = await apiClient.loadPokemons(offset: itemsCount)
+            
+            await MainActor.run {
+                switch(result) {
+                case .success(let pokemonListData):
+                    self._items.append(contentsOf: pokemonListData.results)
+                    self.onItemsLoaded?()
+                case .failure(let error):
+                    self.onError?(error.localizedDescription)
+                }
+            }
         }
+    }
+    
+    func moveToDetail(pokemonName: String) {
+        coordinator.moveToPokemonDetails(pokemonName: pokemonName)
     }
 }

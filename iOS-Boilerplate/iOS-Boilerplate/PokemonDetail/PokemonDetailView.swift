@@ -88,10 +88,9 @@ class PokemonDetailView: UIView {
         stackView.addArrangedSubview(pokemonIsDefaultLabel)
 
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20.0),
+            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 20.0),
             stackView.topAnchor.constraint(equalTo: self.topAnchor),
-            //stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             pokemonImageView.heightAnchor.constraint(equalToConstant: 256),
         ])
     }

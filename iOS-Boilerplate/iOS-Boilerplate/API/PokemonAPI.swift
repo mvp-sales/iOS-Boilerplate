@@ -16,7 +16,7 @@ class PokemonAPIClient: PokemonAPI {
     private let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
 
     func loadPokemons(offset: Int) async -> Result<PokemonListResponse, PokemonAPIError> {
-        let url = baseURL.appendingPathComponent("pokemon").appending(queryItems: [URLQueryItem(name: "limit", value: "50")])
+        let url = baseURL.appendingPathComponent("pokemon").appending(queryItems: [URLQueryItem(name: "limit", value: "25"), URLQueryItem(name: "offset", value: "\(offset)")])
         guard let (data, response) = try? await URLSession.shared.data(from: url) else {
             return Result.failure(PokemonAPIError.generalError)
         }

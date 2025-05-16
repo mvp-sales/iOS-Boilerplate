@@ -26,15 +26,7 @@ class PokemonDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        view.addSubview(pokemonDetailView)
-        pokemonDetailView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            pokemonDetailView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            pokemonDetailView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            pokemonDetailView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            pokemonDetailView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        ])
+        configureView()
         
         viewModel.onPokemonLoaded = { [weak self] pokemonData in
             self?.pokemonDetailView.configure(with: pokemonData)
@@ -44,8 +36,18 @@ class PokemonDetailViewController: UIViewController {
             print(error)
         }
         
-        Task {
-            await viewModel.loadPokemon()
-        }
+        viewModel.loadPokemon()
+    }
+    
+    private func configureView() {
+        view.backgroundColor = .white
+        view.addSubview(pokemonDetailView)
+        pokemonDetailView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            pokemonDetailView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            pokemonDetailView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            pokemonDetailView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            pokemonDetailView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 }

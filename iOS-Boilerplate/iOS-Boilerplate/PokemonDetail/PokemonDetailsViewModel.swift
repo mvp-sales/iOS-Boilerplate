@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-@MainActor
 class PokemonDetailsViewModel {
     
     private let pokemonName: String
@@ -22,14 +21,18 @@ class PokemonDetailsViewModel {
         self.apiClient = apiClient
     }
     
-    func loadPokemon() async {
-        let result = await apiClient.getPokemonDetails(pokemonName: pokemonName)
-        
-        switch(result) {
-        case .success(let pokemonData):
-            onPokemonLoaded?(pokemonData)
-        case .failure(let error):
-            onError?(error.localizedDescription)
+    func loadPokemon() {
+        Task {
+            let result = await apiClient.getPokemonDetails(pokemonName: pokemonName)
+            
+            await MainActor.run {
+                switch(result) {
+                case .success(let pokemonData):
+                    onPokemonLoaded?(pokemonData)
+                case .failure(let error):
+                    onError?(error.localizedDescription)
+                }
+            }
         }
     }
 }

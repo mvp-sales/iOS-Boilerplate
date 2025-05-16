@@ -42,13 +42,13 @@ class PokemonListItemCell: UITableViewCell {
         pokemonNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            pokemonImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            pokemonImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16.0),
             pokemonImageView.topAnchor.constraint(equalTo: self.topAnchor),
-            pokemonImageView.widthAnchor.constraint(equalToConstant: 96),
-            pokemonImageView.heightAnchor.constraint(equalToConstant: 96),
-            pokemonImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            pokemonNameLabel.leadingAnchor.constraint(equalTo: pokemonImageView.trailingAnchor),
-            pokemonNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            pokemonImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.25),
+            pokemonImageView.heightAnchor.constraint(equalTo: self.pokemonImageView.widthAnchor),
+            pokemonImageView.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor),
+            pokemonNameLabel.leadingAnchor.constraint(equalTo: pokemonImageView.trailingAnchor, constant: 8.0),
+            pokemonNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 16.0),
             pokemonNameLabel.centerYAnchor.constraint(equalTo: pokemonImageView.centerYAnchor)
         ])
     }

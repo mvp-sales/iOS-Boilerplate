@@ -23,6 +23,7 @@ class PokemonListView: UIView {
             tableView.delegate = delegate
             tableView.dataSource = delegate
             tableView.register(PokemonListItemCell.self, forCellReuseIdentifier: PokemonListItemCell.CellId)
+            tableView.register(PokemonListActionCell.self, forCellReuseIdentifier: PokemonListActionCell.CellId)
         }
     }
     

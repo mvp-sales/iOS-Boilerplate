@@ -12,12 +12,10 @@ class PokemonListViewController: UIViewController {
     
     private let pokemonListView: PokemonListView
     private let viewModel: PokemonListViewModel
-    private let coordinator: BaseCoordinator
     
-    init(viewModel: PokemonListViewModel, coordinator: BaseCoordinator) {
+    init(viewModel: PokemonListViewModel) {
         self.pokemonListView = PokemonListView()
         self.viewModel = viewModel
-        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -25,13 +23,11 @@ class PokemonListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func loadView() {
-        view = pokemonListView
-        pokemonListView.delegate = self
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        configureView()
+        pokemonListView.delegate = self
         
         viewModel.onItemsLoaded = { [weak self] in
             self?.pokemonListView.reloadData()
@@ -41,20 +37,35 @@ class PokemonListViewController: UIViewController {
             print(error)
         }
         
-        Task {
-            await viewModel.loadPokemons()
-        }
+        viewModel.loadPokemons()
+    }
+    
+    private func configureView() {
+        view.backgroundColor = .white
+        view.addSubview(pokemonListView)
+        pokemonListView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            pokemonListView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            pokemonListView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            pokemonListView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            pokemonListView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 }
 
 extension PokemonListViewController: PokemonListViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.itemsCount
+        return viewModel.itemsCount + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PokemonListItemCell.CellId, for: indexPath) as? PokemonListItemCell else {
+        if (indexPath.row == viewModel.itemsCount) {
+            return tableView.dequeueReusableCell(withIdentifier: PokemonListActionCell.CellId, for: indexPath) as? PokemonListActionCell ?? UITableViewCell()
+        }
+
+        guard indexPath.row < viewModel.itemsCount,
+            let cell = tableView.dequeueReusableCell(withIdentifier: PokemonListItemCell.CellId, for: indexPath) as? PokemonListItemCell else {
             return UITableViewCell()
         }
         
@@ -64,10 +75,14 @@ extension PokemonListViewController: PokemonListViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath.row == viewModel.itemsCount) {
+            viewModel.loadPokemons()
+            return
+        }
         guard indexPath.row < viewModel.itemsCount else { return }
         
         let pokemon = viewModel.items[indexPath.row]
-        coordinator.moveToDetail(pokemonName: pokemon.name)
+        viewModel.moveToDetail(pokemonName: pokemon.name)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
