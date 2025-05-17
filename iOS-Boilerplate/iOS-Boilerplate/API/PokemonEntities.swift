@@ -11,12 +11,12 @@ struct PokemonListResponse: Codable {
     let results: [PokemonData]
 }
 
-struct PokemonData: Codable {
+struct PokemonData: Codable, Equatable {
     let name: String
     let url: String
 }
 
-struct PokemonDetailsResponse: Codable {
+struct PokemonDetailsResponse: Codable, Equatable {
     let id: Int
     let name: String
     let height: Int
@@ -38,7 +38,7 @@ struct PokemonDetailsResponse: Codable {
     }
 }
 
-struct PokemonSpeciesDTO: Codable {
+struct PokemonSpeciesDTO: Codable, Equatable {
     let name: String
 }
 

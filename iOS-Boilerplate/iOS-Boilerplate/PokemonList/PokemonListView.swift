@@ -18,6 +18,17 @@ class PokemonListView: UIView {
         
         return tableView
     }()
+    
+    private let loadingIndicatorView = {
+        return UIActivityIndicatorView()
+    }()
+    
+    var isLoading: Bool = false {
+        didSet {
+            loadingIndicatorView.isHidden = !isLoading
+        }
+    }
+    
     weak var delegate: PokemonListViewDelegate? {
         didSet {
             tableView.delegate = delegate
@@ -38,13 +49,16 @@ class PokemonListView: UIView {
     
     private func setup() {
         self.addSubview(tableView)
+        self.addSubview(loadingIndicatorView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             tableView.topAnchor.constraint(equalTo: self.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            loadingIndicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            loadingIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
     

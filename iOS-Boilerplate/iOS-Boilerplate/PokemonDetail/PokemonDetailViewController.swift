@@ -28,12 +28,26 @@ class PokemonDetailViewController: UIViewController {
         
         configureView()
         
+        viewModel.onLoading = { [weak self] isLoading in
+            self?.pokemonDetailView.isLoading = isLoading
+        }
+        
         viewModel.onPokemonLoaded = { [weak self] pokemonData in
             self?.pokemonDetailView.configure(with: pokemonData)
         }
         
-        viewModel.onError = { error in
-            print(error)
+        viewModel.onError = { [weak self] error in
+            let alert = UIAlertController(
+                title: "Error",
+                message: error,
+                preferredStyle: .alert
+            )
+            alert.addAction(
+                UIAlertAction(title: "Retry", style: .default) { _ in
+                    self?.viewModel.loadPokemon()
+                }
+            )
+            self?.show(alert, sender: nil)
         }
         
         viewModel.loadPokemon()

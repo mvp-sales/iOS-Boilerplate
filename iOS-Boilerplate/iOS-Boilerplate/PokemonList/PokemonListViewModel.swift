@@ -19,6 +19,7 @@ class PokemonListViewModel {
     private let apiClient: PokemonAPI
     private let coordinator: PokemonListCoordinator
     
+    var onLoading: ((Bool) -> ())?
     var onItemsLoaded: (() -> ())?
     var onError: ((String) -> ())?
     
@@ -31,10 +32,12 @@ class PokemonListViewModel {
     }
     
     func loadPokemons() {
+        onLoading?(true)
         Task {
             let result = await apiClient.loadPokemons(offset: itemsCount)
-            
+
             await MainActor.run {
+                self.onLoading?(false)
                 switch(result) {
                 case .success(let pokemonListData):
                     self._items.append(contentsOf: pokemonListData.results)

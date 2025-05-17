@@ -60,6 +60,17 @@ class PokemonDetailView: UIView {
         return stackView
     }()
     
+    private let loadingIndicatorView: UIActivityIndicatorView = {
+        return UIActivityIndicatorView()
+    }()
+    
+    var isLoading: Bool = false {
+        didSet {
+            loadingIndicatorView.isHidden = !isLoading
+            stackView.isHidden = isLoading
+        }
+    }
+    
     init() {
         super.init(frame: .zero)
         setup()
@@ -71,7 +82,9 @@ class PokemonDetailView: UIView {
     
     private func setup() {
         self.addSubview(stackView)
+        self.addSubview(loadingIndicatorView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
@@ -92,6 +105,8 @@ class PokemonDetailView: UIView {
             stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 20.0),
             stackView.topAnchor.constraint(equalTo: self.topAnchor),
             pokemonImageView.heightAnchor.constraint(equalToConstant: 256),
+            loadingIndicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            loadingIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
     
