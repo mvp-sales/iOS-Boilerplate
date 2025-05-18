@@ -11,12 +11,9 @@ import UIKit
 
 class PokemonListViewModel {
     var itemsCount: Int {
-        _items.count
+        items.count
     }
-    var items: [PokemonData] {
-        _items
-    }
-    private var _items: [PokemonData] = []
+    private(set) var items: [PokemonData] = []
     private let apiClient: PokemonAPI
     private let coordinator: PokemonListCoordinator
     
@@ -37,7 +34,7 @@ class PokemonListViewModel {
 
             switch(result) {
             case .success(let pokemonListData):
-                self._items.append(contentsOf: pokemonListData.results)
+                self.items.append(contentsOf: pokemonListData.results)
                 self.viewState = .newItemsLoaded
             case .failure(let error):
                 self.viewState = .failed(error.localizedDescription)
@@ -56,3 +53,4 @@ class PokemonListViewModel {
         case failed(String)
     }
 }
+            
