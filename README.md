@@ -4,6 +4,8 @@ Pokemon app for listing pokémons. The app shows two screens, a list screen with
 
 ### App Screens
 
+![list screen](./app_list_screen.png)
+![detail screen](./app_detail_screen.png)
 
 
 ### Architecture
