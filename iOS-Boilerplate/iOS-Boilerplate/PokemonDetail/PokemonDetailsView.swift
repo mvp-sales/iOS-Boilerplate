@@ -60,11 +60,6 @@ class PokemonDetailsView: UIView {
         return stackView
     }()
     
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        return scrollView
-    }()
-    
     private let loadingIndicatorView: UIActivityIndicatorView = {
         return UIActivityIndicatorView()
     }()
@@ -86,10 +81,8 @@ class PokemonDetailsView: UIView {
     }
     
     private func setup() {
-        self.addSubview(scrollView)
-        scrollView.addSubview(stackView)
+        self.addSubview(stackView)
         self.addSubview(loadingIndicatorView)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
         loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -97,8 +90,6 @@ class PokemonDetailsView: UIView {
         stackView.distribution = .equalSpacing
         stackView.backgroundColor = .white
         stackView.spacing = 8.0
-        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 20.0, bottom: 0, right: 20.0)
-        stackView.isLayoutMarginsRelativeArrangement = true
         
         stackView.addArrangedSubview(pokemonImageView)
         stackView.addArrangedSubview(pokemonNameLabel)
@@ -110,16 +101,10 @@ class PokemonDetailsView: UIView {
         stackView.addArrangedSubview(pokemonIsDefaultLabel)
 
         NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
-            stackView.bottomAnchor.constraint(lessThanOrEqualTo: self.scrollView.bottomAnchor),
-            stackView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
-            pokemonImageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.35),
+            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20.0),
+            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20.0),
+            stackView.topAnchor.constraint(equalTo: self.topAnchor),
+            pokemonImageView.heightAnchor.constraint(equalToConstant: 256),
             loadingIndicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             loadingIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
