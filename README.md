@@ -10,8 +10,7 @@ Pokemon app for listing pokémons. The app shows two screens, a list screen with
 
 ### Architecture
 
-The architecture for this app is a MVVM-C (Model-View-ViewModel-Coordinator) architecture.
-
+The architecture for this app is a MVVM-C (Model-View-ViewModel-Coordinator) architecture. Coordinator instantiates ViewController and its ViewModel. ViewModel communicates to Coordinator via a protocol. ViewModel owns a PokemonAPI client, which can be changed to a Repository in the case a local data source is added.
 
 ### Future improvements
 
@@ -19,4 +18,5 @@ The architecture for this app is a MVVM-C (Model-View-ViewModel-Coordinator) arc
 - Search pokémons functionality in the list screen (or add new screen with search filters)
 - Show evolution lines and other details in the details screen
 - Add a dependency injection solution
-
+- Add domain and UI layer entities alongside mappers
+- More UI refinements
