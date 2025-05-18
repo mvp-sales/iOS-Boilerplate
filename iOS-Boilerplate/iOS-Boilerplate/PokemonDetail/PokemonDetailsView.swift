@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class PokemonDetailView: UIView {
+class PokemonDetailsView: UIView {
     
     private let pokemonImageView: UIImageView = {
         let imageView = UIImageView()
@@ -102,7 +102,7 @@ class PokemonDetailView: UIView {
 
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20.0),
-            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 20.0),
+            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20.0),
             stackView.topAnchor.constraint(equalTo: self.topAnchor),
             pokemonImageView.heightAnchor.constraint(equalToConstant: 256),
             loadingIndicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),

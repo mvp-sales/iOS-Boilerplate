@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import UIKit
 
 class PokemonListViewModel {
@@ -19,9 +20,7 @@ class PokemonListViewModel {
     private let apiClient: PokemonAPI
     private let coordinator: PokemonListCoordinator
     
-    var onLoading: ((Bool) -> ())?
-    var onItemsLoaded: (() -> ())?
-    var onError: ((String) -> ())?
+    @Published private(set) var viewState: PokemonListViewState = .initial
     
     init(
         coordinator: PokemonListCoordinator,
@@ -32,24 +31,28 @@ class PokemonListViewModel {
     }
     
     func loadPokemons() {
-        onLoading?(true)
         Task {
+            self.viewState = .loading
             let result = await apiClient.loadPokemons(offset: itemsCount)
 
-            await MainActor.run {
-                self.onLoading?(false)
-                switch(result) {
-                case .success(let pokemonListData):
-                    self._items.append(contentsOf: pokemonListData.results)
-                    self.onItemsLoaded?()
-                case .failure(let error):
-                    self.onError?(error.localizedDescription)
-                }
+            switch(result) {
+            case .success(let pokemonListData):
+                self._items.append(contentsOf: pokemonListData.results)
+                self.viewState = .newItemsLoaded
+            case .failure(let error):
+                self.viewState = .failed(error.localizedDescription)
             }
         }
     }
     
     func moveToDetail(pokemonName: String) {
         coordinator.moveToPokemonDetails(pokemonName: pokemonName)
+    }
+    
+    enum PokemonListViewState {
+        case initial
+        case loading
+        case newItemsLoaded
+        case failed(String)
     }
 }

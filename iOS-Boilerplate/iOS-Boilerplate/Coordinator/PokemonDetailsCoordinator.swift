@@ -8,11 +8,11 @@
 import Foundation
 import UIKit
 
-protocol PokemonDetailCoordinator: BaseCoordinator {
+protocol PokemonDetailsCoordinator: BaseCoordinator {
     
 }
 
-final class PokemonDetailCoordinatorImpl: PokemonDetailCoordinator {
+final class PokemonDetailsCoordinatorImpl: PokemonDetailsCoordinator {
     
     private let navigationController: UINavigationController
     private let pokemonName: String
@@ -27,7 +27,7 @@ final class PokemonDetailCoordinatorImpl: PokemonDetailCoordinator {
             pokemonName: pokemonName,
             apiClient: PokemonAPIClient()
         )
-        let viewController = PokemonDetailViewController(viewModel: viewModel)
+        let viewController = PokemonDetailsViewController(viewModel: viewModel)
 
         navigationController.pushViewController(viewController, animated: false)
     }

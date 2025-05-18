@@ -9,10 +9,9 @@ import Testing
 @testable import iOS_Boilerplate
 
 @Suite struct PokemonListViewModelTests {
-    private let mockApi: PokemonAPI = MockPokemonAPIClient()
     private let mockCoordinator: PokemonListCoordinator = MockCoordinator()
     
-    @Test func loadPokemons_success_test(){
+    @Test func loadPokemons_success_test() async {
         let expected: [PokemonData] = [
             PokemonData(
                 name: "bulbasaur",
@@ -27,20 +26,36 @@ import Testing
                 url: ""
             )
         ]
-        let sut = PokemonListViewModel(coordinator: mockCoordinator, apiClient: MockPokemonAPIClient(shouldReturnError: false))
-        sut.onItemsLoaded = {
-            #expect(sut.items == expected)
-        }
+        let sut = PokemonListViewModel(
+            coordinator: mockCoordinator,
+            apiClient: MockPokemonAPIClient(result: .success(PokemonListResponse(results: expected)))
+        )
+
         sut.loadPokemons()
+        
+        for await state in sut.$viewState.values {
+            if case .newItemsLoaded = state {
+                #expect(sut.items == expected)
+                break
+            }
+        }
     }
     
-    @Test func loadPokemons_error_test(){
+    @Test func loadPokemons_error_test() async {
         let expected = PokemonAPIError.generalError.localizedDescription
-        let sut = PokemonListViewModel(coordinator: mockCoordinator, apiClient: MockPokemonAPIClient(shouldReturnError: true))
-        sut.onError = { actualError in
-            #expect(actualError == expected)
-        }
+        let sut = PokemonListViewModel(
+            coordinator: mockCoordinator,
+            apiClient: MockPokemonAPIClient(result: .failure(.generalError))
+        )
+
         sut.loadPokemons()
+        
+        for await state in sut.$viewState.values {
+            if case .failed(let actualError) = state {
+                #expect(actualError == expected)
+                break
+            }
+        }
     }
 }
 
@@ -51,39 +66,17 @@ fileprivate class MockCoordinator: PokemonListCoordinator {
 }
 
 fileprivate class MockPokemonAPIClient: PokemonAPI {
+    private let result: Result<PokemonListResponse, PokemonAPIError>
     
-    public let shouldReturnError: Bool
-    
-    init(shouldReturnError: Bool = false) {
-        self.shouldReturnError = shouldReturnError
+    init(result: Result<PokemonListResponse, PokemonAPIError>) {
+        self.result = result
     }
     
     func loadPokemons(offset: Int) async -> Result<iOS_Boilerplate.PokemonListResponse, iOS_Boilerplate.PokemonAPIError> {
-        if shouldReturnError {
-            return Result.failure(PokemonAPIError.generalError)
-        } else {
-            return Result.success(
-                PokemonListResponse(
-                    results: [
-                        PokemonData(
-                            name: "bulbasaur",
-                            url: ""
-                        ),
-                        PokemonData(
-                            name: "ivysaur",
-                            url: ""
-                        ),
-                        PokemonData(
-                            name: "venusaur",
-                            url: ""
-                        )
-                    ]
-                )
-            )
-        }
+        return result
     }
     
     func getPokemonDetails(pokemonName: String) async -> Result<iOS_Boilerplate.PokemonDetailsResponse, iOS_Boilerplate.PokemonAPIError> {
-        return Result.failure(PokemonAPIError.generalError)
+        fatalError("shouldn't call this method here")
     }
 }

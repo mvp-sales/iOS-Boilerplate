@@ -6,16 +6,15 @@
 //
 
 import Foundation
+import Combine
 import UIKit
 
 class PokemonDetailsViewModel {
     
     private let pokemonName: String
     private let apiClient: PokemonAPI
-    
-    var onLoading: ((Bool) -> ())?
-    var onPokemonLoaded: ((PokemonDetailsResponse) -> ())?
-    var onError: ((String) -> ())?
+    // MARK: - Publishers
+    @Published private(set) var viewState: PokemonDetailsViewState = .initial
     
     init(pokemonName: String, apiClient: PokemonAPI) {
         self.pokemonName = pokemonName
@@ -23,19 +22,23 @@ class PokemonDetailsViewModel {
     }
     
     func loadPokemon() {
-        onLoading?(true)
         Task {
+            self.viewState = .loading
             let result = await apiClient.getPokemonDetails(pokemonName: pokemonName)
             
-            await MainActor.run {
-                onLoading?(false)
-                switch(result) {
-                case .success(let pokemonData):
-                    onPokemonLoaded?(pokemonData)
-                case .failure(let error):
-                    onError?(error.localizedDescription)
-                }
+            switch(result) {
+            case .success(let pokemonData):
+                self.viewState = .loaded(pokemonData)
+            case .failure(let error):
+                self.viewState = .failed(error.localizedDescription)
             }
         }
+    }
+    
+    enum PokemonDetailsViewState {
+        case initial
+        case loading
+        case loaded(PokemonDetailsResponse)
+        case failed(String)
     }
 }

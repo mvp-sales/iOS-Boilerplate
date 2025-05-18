@@ -6,12 +6,14 @@
 //
 
 import Foundation
+import Combine
 import UIKit
 
 class PokemonListViewController: UIViewController {
     
     private let pokemonListView: PokemonListView
     private let viewModel: PokemonListViewModel
+    private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: PokemonListViewModel) {
         self.pokemonListView = PokemonListView()
@@ -29,27 +31,23 @@ class PokemonListViewController: UIViewController {
         configureView()
         pokemonListView.delegate = self
         
-        viewModel.onLoading = { [weak self] isLoading in
-            self?.pokemonListView.isLoading = isLoading
-        }
-        
-        viewModel.onItemsLoaded = { [weak self] in
-            self?.pokemonListView.reloadData()
-        }
-        
-        viewModel.onError = { [weak self] error in
-            let alert = UIAlertController(
-                title: "Error",
-                message: error,
-                preferredStyle: .alert
-            )
-            alert.addAction(
-                UIAlertAction(title: "Retry", style: .default) { _ in
-                    self?.viewModel.loadPokemons()
+        viewModel.$viewState
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .loading:
+                    self?.pokemonListView.isLoading = true
+                case .newItemsLoaded:
+                    self?.pokemonListView.isLoading = false
+                    self?.pokemonListView.reloadData()
+                case .failed(let error):
+                    self?.pokemonListView.isLoading = false
+                    self?.showErrorAlert(errorDescription: error)
+                default:
+                    break
                 }
-            )
-            self?.show(alert, sender: nil)
-        }
+            }
+            .store(in: &cancellables)
         
         viewModel.loadPokemons()
     }
@@ -64,6 +62,20 @@ class PokemonListViewController: UIViewController {
             pokemonListView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             pokemonListView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func showErrorAlert(errorDescription: String) {
+        let alert = UIAlertController(
+            title: "Error",
+            message: errorDescription,
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(title: "Retry", style: .default) { _ in
+                self.viewModel.loadPokemons()
+            }
+        )
+        self.show(alert, sender: nil)
     }
 }
 

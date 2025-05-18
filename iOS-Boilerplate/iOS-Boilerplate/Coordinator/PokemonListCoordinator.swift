@@ -30,7 +30,7 @@ class PokemonListCoordinatorImpl: PokemonListCoordinator {
     }
     
     func moveToPokemonDetails(pokemonName: String) {
-        let detailCoordinator: PokemonDetailCoordinator = PokemonDetailCoordinatorImpl(
+        let detailCoordinator: PokemonDetailsCoordinator = PokemonDetailsCoordinatorImpl(
             navigationController: navigationController,
             pokemonName: pokemonName
         )
