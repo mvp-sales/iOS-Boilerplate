@@ -22,7 +22,7 @@ class PokemonListItemCell: UITableViewCell {
     
     private let pokemonNameLabel: UILabel = {
         let label = UILabel()
-        
+        label.accessibilityIdentifier = "pokemonCellNameLabel"
         return label
     }()
     

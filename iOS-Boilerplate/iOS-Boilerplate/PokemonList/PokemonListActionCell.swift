@@ -15,6 +15,7 @@ class PokemonListActionCell: UITableViewCell {
     private let loadMoreButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemBlue
+        button.accessibilityIdentifier = "pokemonCellLoadMoreButton"
         
         return button
     }()

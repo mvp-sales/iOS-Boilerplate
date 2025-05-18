@@ -19,6 +19,7 @@ class PokemonDetailsView: UIView {
     private let pokemonNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.accessibilityIdentifier = "pokemonDetailsNameLabel"
         return label
     }()
     
