@@ -37,7 +37,7 @@ class PokemonListView: UIView {
             tableView.register(PokemonListActionCell.self, forCellReuseIdentifier: PokemonListActionCell.CellId)
         }
     }
-    
+
     init() {
         super.init(frame: .zero)
         setup()
@@ -51,6 +51,7 @@ class PokemonListView: UIView {
         self.addSubview(tableView)
         self.addSubview(loadingIndicatorView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),

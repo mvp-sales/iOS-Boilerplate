@@ -24,18 +24,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1C97CBAA2DD1FB5C00D381B8 /* iOS-Boilerplate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-Boilerplate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C97CBC32DD1FB5E00D381B8 /* iOS-BoilerplateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS-BoilerplateTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C97CBCD2DD1FB5E00D381B8 /* iOS-BoilerplateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS-BoilerplateUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C97CBAA2DD1FB5C00D381B8 /* PokeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C97CBC32DD1FB5E00D381B8 /* PokeAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokeAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C97CBCD2DD1FB5E00D381B8 /* PokeAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokeAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		1C97CBD52DD1FB5E00D381B8 /* Exceptions for "iOS-Boilerplate" folder in "iOS-Boilerplate" target */ = {
+		1C97CBD52DD1FB5E00D381B8 /* Exceptions for "iOS-Boilerplate" folder in "PokeApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 1C97CBA92DD1FB5C00D381B8 /* iOS-Boilerplate */;
+			target = 1C97CBA92DD1FB5C00D381B8 /* PokeApp */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -43,7 +43,7 @@
 		1C97CBAC2DD1FB5C00D381B8 /* iOS-Boilerplate */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				1C97CBD52DD1FB5E00D381B8 /* Exceptions for "iOS-Boilerplate" folder in "iOS-Boilerplate" target */,
+				1C97CBD52DD1FB5E00D381B8 /* Exceptions for "iOS-Boilerplate" folder in "PokeApp" target */,
 			);
 			path = "iOS-Boilerplate";
 			sourceTree = "<group>";
@@ -98,9 +98,9 @@
 		1C97CBAB2DD1FB5C00D381B8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1C97CBAA2DD1FB5C00D381B8 /* iOS-Boilerplate.app */,
-				1C97CBC32DD1FB5E00D381B8 /* iOS-BoilerplateTests.xctest */,
-				1C97CBCD2DD1FB5E00D381B8 /* iOS-BoilerplateUITests.xctest */,
+				1C97CBAA2DD1FB5C00D381B8 /* PokeApp.app */,
+				1C97CBC32DD1FB5E00D381B8 /* PokeAppTests.xctest */,
+				1C97CBCD2DD1FB5E00D381B8 /* PokeAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,9 +108,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1C97CBA92DD1FB5C00D381B8 /* iOS-Boilerplate */ = {
+		1C97CBA92DD1FB5C00D381B8 /* PokeApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1C97CBD62DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "iOS-Boilerplate" */;
+			buildConfigurationList = 1C97CBD62DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "PokeApp" */;
 			buildPhases = (
 				1C97CBA62DD1FB5C00D381B8 /* Sources */,
 				1C97CBA72DD1FB5C00D381B8 /* Frameworks */,
@@ -123,16 +123,16 @@
 			fileSystemSynchronizedGroups = (
 				1C97CBAC2DD1FB5C00D381B8 /* iOS-Boilerplate */,
 			);
-			name = "iOS-Boilerplate";
+			name = PokeApp;
 			packageProductDependencies = (
 			);
 			productName = "iOS-Boilerplate";
-			productReference = 1C97CBAA2DD1FB5C00D381B8 /* iOS-Boilerplate.app */;
+			productReference = 1C97CBAA2DD1FB5C00D381B8 /* PokeApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1C97CBC22DD1FB5E00D381B8 /* iOS-BoilerplateTests */ = {
+		1C97CBC22DD1FB5E00D381B8 /* PokeAppTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1C97CBDB2DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "iOS-BoilerplateTests" */;
+			buildConfigurationList = 1C97CBDB2DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "PokeAppTests" */;
 			buildPhases = (
 				1C97CBBF2DD1FB5E00D381B8 /* Sources */,
 				1C97CBC02DD1FB5E00D381B8 /* Frameworks */,
@@ -146,16 +146,16 @@
 			fileSystemSynchronizedGroups = (
 				1C97CBC62DD1FB5E00D381B8 /* iOS-BoilerplateTests */,
 			);
-			name = "iOS-BoilerplateTests";
+			name = PokeAppTests;
 			packageProductDependencies = (
 			);
 			productName = "iOS-BoilerplateTests";
-			productReference = 1C97CBC32DD1FB5E00D381B8 /* iOS-BoilerplateTests.xctest */;
+			productReference = 1C97CBC32DD1FB5E00D381B8 /* PokeAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		1C97CBCC2DD1FB5E00D381B8 /* iOS-BoilerplateUITests */ = {
+		1C97CBCC2DD1FB5E00D381B8 /* PokeAppUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1C97CBDE2DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "iOS-BoilerplateUITests" */;
+			buildConfigurationList = 1C97CBDE2DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "PokeAppUITests" */;
 			buildPhases = (
 				1C97CBC92DD1FB5E00D381B8 /* Sources */,
 				1C97CBCA2DD1FB5E00D381B8 /* Frameworks */,
@@ -169,11 +169,11 @@
 			fileSystemSynchronizedGroups = (
 				1C97CBD02DD1FB5E00D381B8 /* iOS-BoilerplateUITests */,
 			);
-			name = "iOS-BoilerplateUITests";
+			name = PokeAppUITests;
 			packageProductDependencies = (
 			);
 			productName = "iOS-BoilerplateUITests";
-			productReference = 1C97CBCD2DD1FB5E00D381B8 /* iOS-BoilerplateUITests.xctest */;
+			productReference = 1C97CBCD2DD1FB5E00D381B8 /* PokeAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -215,9 +215,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1C97CBA92DD1FB5C00D381B8 /* iOS-Boilerplate */,
-				1C97CBC22DD1FB5E00D381B8 /* iOS-BoilerplateTests */,
-				1C97CBCC2DD1FB5E00D381B8 /* iOS-BoilerplateUITests */,
+				1C97CBA92DD1FB5C00D381B8 /* PokeApp */,
+				1C97CBC22DD1FB5E00D381B8 /* PokeAppTests */,
+				1C97CBCC2DD1FB5E00D381B8 /* PokeAppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -273,12 +273,12 @@
 /* Begin PBXTargetDependency section */
 		1C97CBC52DD1FB5E00D381B8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1C97CBA92DD1FB5C00D381B8 /* iOS-Boilerplate */;
+			target = 1C97CBA92DD1FB5C00D381B8 /* PokeApp */;
 			targetProxy = 1C97CBC42DD1FB5E00D381B8 /* PBXContainerItemProxy */;
 		};
 		1C97CBCF2DD1FB5E00D381B8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1C97CBA92DD1FB5C00D381B8 /* iOS-Boilerplate */;
+			target = 1C97CBA92DD1FB5C00D381B8 /* PokeApp */;
 			targetProxy = 1C97CBCE2DD1FB5E00D381B8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -541,7 +541,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1C97CBD62DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "iOS-Boilerplate" */ = {
+		1C97CBD62DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "PokeApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1C97CBD72DD1FB5E00D381B8 /* Debug */,
@@ -550,7 +550,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1C97CBDB2DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "iOS-BoilerplateTests" */ = {
+		1C97CBDB2DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "PokeAppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1C97CBDC2DD1FB5E00D381B8 /* Debug */,
@@ -559,7 +559,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1C97CBDE2DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "iOS-BoilerplateUITests" */ = {
+		1C97CBDE2DD1FB5E00D381B8 /* Build configuration list for PBXNativeTarget "PokeAppUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1C97CBDF2DD1FB5E00D381B8 /* Debug */,
