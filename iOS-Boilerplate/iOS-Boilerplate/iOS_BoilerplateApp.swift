@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import ComposableArchitecture
 
 @main
 struct iOS_BoilerplateApp: App {
@@ -25,7 +26,11 @@ struct iOS_BoilerplateApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NewsSearchView(
+                store: Store(initialState: NewsSourcesFeature.State()) {
+                    NewsSourcesFeature()
+                }
+            )
         }
         .modelContainer(sharedModelContainer)
     }
