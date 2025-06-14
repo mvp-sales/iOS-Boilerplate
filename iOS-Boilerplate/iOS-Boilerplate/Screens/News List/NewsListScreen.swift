@@ -14,8 +14,22 @@ struct NewsListScreen: View {
     @Bindable var viewModel: NewsListViewModel
     
     var body: some View {
-        List(viewModel.articles) { article in
-            Text(article.title)
+        VStack {
+            switch viewModel.uiState {
+            case .initial:
+                EmptyView()
+            case .loading:
+                ProgressView()
+            case .loaded(let articles):
+                List(articles) { article in
+                    Text(article.title)
+                }
+            case .error(let error):
+                Text(error.message)
+                Button("Retry") {
+                    viewModel.loadArticles()
+                }
+            }
         }
         .navigationBarBackButtonHidden()
         .toolbar {

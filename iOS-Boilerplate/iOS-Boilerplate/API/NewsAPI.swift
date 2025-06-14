@@ -14,13 +14,16 @@ class NewsAPI {
         let url = baseURL.appendingPathComponent("/v2/\(request.searchType.endpoint)")
             .appending(
                 queryItems: [
-                    URLQueryItem(name: "query", value: request.query),
+                    URLQueryItem(name: "q", value: request.query),
                     URLQueryItem(name: "page", value: "\(request.page)"),
                     URLQueryItem(name: "pageSize", value: "\(request.pageSize)"),
                     URLQueryItem(name: "sources", value: "\(request.sources.joined(separator: ","))")
                 ]
             )
-        guard let (data, response) = try? await URLSession.shared.data(from: url) else {
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpMethod = "GET"
+        guard let (data, response) = try? await URLSession.shared.data(for: request) else {
             return Result.failure(GenericErrorApiResponse.genericError)
         }
 
