@@ -35,7 +35,7 @@ struct NewsSourcesListView: View {
                     }
                     .frame(maxWidth: .infinity)
                 }.onTapGesture {
-                    router.push(to: .newsListScreen)
+                    router.push(to: .newsListScreen("", source.id))
                 }
             }
         }

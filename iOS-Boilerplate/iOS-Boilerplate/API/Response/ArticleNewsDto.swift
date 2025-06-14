@@ -22,3 +22,18 @@ struct ArticleSourceNewsDto: Codable {
     let id: String?
     let name: String
 }
+
+extension ArticleNewsDto {
+    func toEntity() -> ArticleNews {
+        return ArticleNews(
+            author: author,
+            title: title,
+            description: description,
+            url: url,
+            urlToImage: urlToImage,
+            publishedAt: publishedAt,
+            content: content,
+            source: ArticleSource(id: source.id, name: source.name)
+        )
+    }
+}

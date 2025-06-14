@@ -22,8 +22,8 @@ struct RootView: View {
                     switch route {
                     case .newsSourcesList:
                         NewsSourcesListView()
-                    case .newsListScreen:
-                        NewsListScreen()
+                    case .newsListScreen(let query, let sourceId):
+                        NewsListScreen(viewModel: NewsListViewModel(query: query, sourceId: sourceId))
                     }
                 }
         }.environment(router)

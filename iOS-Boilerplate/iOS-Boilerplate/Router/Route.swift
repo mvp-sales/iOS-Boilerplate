@@ -8,25 +8,8 @@
 import Foundation
 import SwiftUI
 
-enum Route: /*View,*/ Hashable {
+enum Route: Hashable {
     case newsSourcesList
-    case newsListScreen
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self.hashValue)
-    }
-    
-    static func == (lhs: Route, rhs: Route) -> Bool {
-        return lhs.hashValue == rhs.hashValue
-    }
-    
-    /*var body: some View {
-        switch self {
-        case .newsSearch:
-            NewsSearchView()
-        case .newsSourcesList:
-            NewsSourcesListView()
-        }
-    }*/
+    case newsListScreen(String, String)
 }
 

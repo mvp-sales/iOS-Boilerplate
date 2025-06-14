@@ -23,7 +23,8 @@ struct NewsSearchView: View {
                 .padding(.horizontal)
             
             Button("Search news") {
-                
+                guard !searchTerm.isEmpty else { return }
+                router.push(to: .newsListScreen(searchTerm, ""))
             }.buttonStyle(.borderedProminent)
             
             Button("Saved news list") {

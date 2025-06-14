@@ -10,7 +10,7 @@ import Foundation
 struct GetNewsRequest {
     let searchType: SearchType
     let query: String
-    let sources: [String] = []
+    let sources: [String]
     let page: Int
     let pageSize: Int = 25
 }
