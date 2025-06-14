@@ -26,11 +26,8 @@ struct iOS_BoilerplateApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NewsSearchView(
-                store: Store(initialState: NewsSourcesFeature.State()) {
-                    NewsSourcesFeature()
-                }
-            )
+            RootView()
+                .environment(NavigationRouter())
         }
         .modelContainer(sharedModelContainer)
     }
