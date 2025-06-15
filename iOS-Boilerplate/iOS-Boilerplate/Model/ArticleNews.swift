@@ -27,10 +27,12 @@ struct ArticleSource: Equatable {
 extension ArticleNews {
     func formatPublishedDate(format: String) -> String {
         let fixedDate = publishedAt.replacing("+00:00", with: "Z")
-        let isoFormatter = ISO8601DateFormatter()
-        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        inputFormatter.locale = Locale(identifier: "en_US_POSIX") // ensures consistent parsing
+        inputFormatter.timeZone = TimeZone(secondsFromGMT: 0)
 
-        guard let date = isoFormatter.date(from: fixedDate) else {
+        guard let date = inputFormatter.date(from: fixedDate) else {
             return ""
         }
 
