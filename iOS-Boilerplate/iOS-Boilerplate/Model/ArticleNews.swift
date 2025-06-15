@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ArticleNews: Equatable, Identifiable {
+struct ArticleNews: Equatable, Identifiable, Hashable {
     let id: UUID = UUID()
     let author: String?
     let title: String
@@ -19,7 +19,7 @@ struct ArticleNews: Equatable, Identifiable {
     let source: ArticleSource
 }
 
-struct ArticleSource: Equatable {
+struct ArticleSource: Equatable, Hashable {
     let id: String?
     let name: String
 }

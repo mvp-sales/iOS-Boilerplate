@@ -24,6 +24,9 @@ struct NewsListScreen: View {
                 List {
                     ForEach(pageData.articles) { article in
                         NewsContent(article: article)
+                            .onTapGesture {
+                                router.push(to: .newsDetail(article))
+                            }
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     

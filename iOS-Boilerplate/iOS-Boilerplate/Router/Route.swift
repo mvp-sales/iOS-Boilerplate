@@ -11,5 +11,6 @@ import SwiftUI
 enum Route: Hashable {
     case newsSourcesList
     case newsListScreen(String, String)
+    case newsDetail(ArticleNews)
 }
 

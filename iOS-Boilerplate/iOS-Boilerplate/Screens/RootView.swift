@@ -24,6 +24,8 @@ struct RootView: View {
                         NewsSourcesListView()
                     case .newsListScreen(let query, let sourceId):
                         NewsListScreen(viewModel: NewsListViewModel(query: query, sourceId: sourceId))
+                    case .newsDetail(let article):
+                        NewsDetailView(viewModel: NewsDetailViewModel(article: article))
                     }
                 }
         }.environment(router)
