@@ -15,38 +15,49 @@ struct NewsDetailView: View {
         let article = viewModel.article
         ScrollView {
             VStack {
-                AsyncImage(url: URL(string: article.urlToImage ?? "")) { phase in
-                    if let image = phase.image {
-                        image.resizable()
-                            .scaledToFill()
-                            .frame(height: 200)
-                            .frame(maxWidth: .infinity)
-                            .clipped()
+                switch viewModel.uiState {
+                case .initial:
+                    EmptyView()
+                case .loading:
+                    ProgressView()
+                case .loaded(let isArticleSaved):
+                    AsyncImage(url: URL(string: article.urlToImage ?? "")) { phase in
+                        if let image = phase.image {
+                            image.resizable()
+                                .scaledToFill()
+                                .frame(height: 200)
+                                .frame(maxWidth: .infinity)
+                                .clipped()
+                        }
                     }
-                }
-                Text(article.title)
-                    .font(.title)
-                    .padding(4.0)
-                Text(article.description ?? "")
-                    .font(.caption)
-                    .padding(EdgeInsets(top: 0.0, leading: 4.0, bottom: 0.0, trailing: 4.0))
-                Text(article.content ?? "No content available")
-                    .font(.body)
+                    Text(article.title)
+                        .font(.title)
+                        .padding(4.0)
+                    Text(article.description ?? "")
+                        .font(.caption)
+                        .padding(EdgeInsets(top: 0.0, leading: 4.0, bottom: 0.0, trailing: 4.0))
+                    Text(article.content ?? "No content available")
+                        .font(.body)
+                        .padding(8.0)
+                    Text(article.author ?? "Unknown author")
+                        .font(.caption2)
+                        .padding(EdgeInsets(top: 0.0, leading: 8.0, bottom: 0.0, trailing: 8.0))
+                        .frame(alignment: .leading)
+                    Text("Published at \(article.formatPublishedDate(format: "dd MMM yyyy"))")
+                        .font(.caption2)
+                        .padding(EdgeInsets(top: 0.0, leading: 8.0, bottom: 0.0, trailing: 8.0))
+                        .frame(alignment: .leading)
+                    Button("Read more on \(article.source.name)") {
+                        // TODO
+                    }
                     .padding(8.0)
-                Text(article.author ?? "Unknown author")
-                    .font(.caption2)
-                    .padding(EdgeInsets(top: 0.0, leading: 8.0, bottom: 0.0, trailing: 8.0))
-                    .frame(alignment: .leading)
-                Text("Published at \(article.formatPublishedDate(format: "dd MMM yyyy"))")
-                    .font(.caption2)
-                    .padding(EdgeInsets(top: 0.0, leading: 8.0, bottom: 0.0, trailing: 8.0))
-                    .frame(alignment: .leading)
-                Button("Read more on \(article.source.name)") {
-                    // TODO
-                }
-                .padding(8.0)
-                Button("Save for later") {
-                    // TODO
+                    Button(isArticleSaved ? "Remove from saved" : "Save for later") {
+                        if isArticleSaved {
+                            viewModel.deleteArticle()
+                        } else {
+                            viewModel.saveArticle()
+                        }
+                    }
                 }
             }
         }
@@ -61,6 +72,9 @@ struct NewsDetailView: View {
                     Text("News Detail")
                 }
             }
+        }
+        .onAppear {
+            viewModel.getArticleSaved()
         }
     }
 }
@@ -80,7 +94,8 @@ struct NewsDetailView: View {
                     id: nil,
                     name: "Android Central"
                 )
-            )
+            ),
+            database: AppDatabase.empty()
         )
     )
 }

@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftData
-import ComposableArchitecture
 
 @main
 struct iOS_BoilerplateApp: App {
@@ -28,7 +27,19 @@ struct iOS_BoilerplateApp: App {
         WindowGroup {
             RootView()
                 .environment(NavigationRouter())
+                .appDatabase(.shared)
         }
         .modelContainer(sharedModelContainer)
+    }
+}
+
+
+extension EnvironmentValues {
+    @Entry var appDatabase = AppDatabase.empty()
+}
+
+extension View {
+    func appDatabase(_ appDatabase: AppDatabase) -> some View {
+        self.environment(\.appDatabase, appDatabase)
     }
 }

@@ -22,8 +22,13 @@ struct NewsSourcesListView: View {
             case .loaded(let sources):
                 List(sources) { source in
                     VStack(alignment: .leading) {
-                        Text(source.name)
-                            .font(.title)
+                        HStack {
+                            Text(source.name)
+                                .font(.title)
+                            Spacer()
+                            Image(systemName: "heart")
+                                .foregroundStyle(Color.red)
+                        }
                         Text(source.url)
                             .font(.subheadline)
                         Text(source.description)

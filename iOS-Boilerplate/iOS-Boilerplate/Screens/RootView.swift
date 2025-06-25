@@ -10,6 +10,7 @@ import SwiftUI
 struct RootView: View {
     
     @Environment(NavigationRouter.self) var router
+    @Environment(\.appDatabase) var appDatabase
     
     var body: some View {
         let pathBinding = Binding(
@@ -25,7 +26,7 @@ struct RootView: View {
                     case .newsListScreen(let query, let sourceId):
                         NewsListScreen(viewModel: NewsListViewModel(query: query, sourceId: sourceId))
                     case .newsDetail(let article):
-                        NewsDetailView(viewModel: NewsDetailViewModel(article: article))
+                        NewsDetailView(viewModel: NewsDetailViewModel(article: article, database: appDatabase))
                     }
                 }
         }.environment(router)

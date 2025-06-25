@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import ComposableArchitecture
 
 struct NewsSearchView: View {
     @State private var searchTerm = ""
