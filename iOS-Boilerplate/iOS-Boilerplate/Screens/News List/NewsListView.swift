@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct NewsListScreen: View {
+struct NewsListView: View {
     
     @Environment(NavigationRouter.self) var router
     @Bindable var viewModel: NewsListViewModel
@@ -99,5 +99,5 @@ fileprivate struct NewsContent: View {
 }
 
 #Preview {
-    NewsListScreen(viewModel: NewsListViewModel())
+    NewsListView(viewModel: NewsListViewModel())
 }

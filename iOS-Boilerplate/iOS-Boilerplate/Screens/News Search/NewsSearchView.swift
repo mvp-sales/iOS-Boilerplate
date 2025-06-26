@@ -27,7 +27,7 @@ struct NewsSearchView: View {
             }.buttonStyle(.borderedProminent)
             
             Button("Saved news list") {
-
+                router.push(to: .newsSavedList)
             }.buttonStyle(.bordered)
             
             Button("Show sources list") {

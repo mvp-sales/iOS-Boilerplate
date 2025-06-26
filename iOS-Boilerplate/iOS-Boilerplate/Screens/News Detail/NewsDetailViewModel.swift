@@ -19,7 +19,7 @@ final class NewsDetailViewModel {
     }
     
     func saveArticle() {
-        uiState = .loading
+        //uiState = .loading
         var entity = article.toEntity()
         Task {
             try? database.saveArticleNews(&entity)
@@ -28,7 +28,7 @@ final class NewsDetailViewModel {
     }
     
     func deleteArticle() {
-        uiState = .loading
+        //uiState = .loading
         Task {
             try? database.deleteArticle(by: article.url)
             uiState = .loaded(false)
