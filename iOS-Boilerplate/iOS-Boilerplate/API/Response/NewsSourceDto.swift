@@ -18,7 +18,7 @@ struct NewsSourceDto: Codable {
 }
 
 extension NewsSourceDto {
-    func toEntity() -> NewsSource {
-        return NewsSource(id: id, name: name, description: description, url: url, category: category, language: language, country: country)
+    func toDomain() -> NewsSource {
+        return NewsSource(id: id, name: name, description: description, url: url, category: category, language: language, country: country, favourite: false)
     }
 }

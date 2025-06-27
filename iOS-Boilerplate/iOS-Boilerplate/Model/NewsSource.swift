@@ -15,4 +15,5 @@ struct NewsSource: Equatable, Identifiable {
     let category: String
     let language: String
     let country: String
+    let favourite: Bool
 }

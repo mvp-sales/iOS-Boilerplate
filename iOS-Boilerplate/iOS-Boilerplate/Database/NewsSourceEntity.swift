@@ -31,7 +31,8 @@ extension NewsSourceEntity {
             url: url,
             category: category,
             language: language,
-            country: country
+            country: country,
+            favourite: true
         )
     }
 }

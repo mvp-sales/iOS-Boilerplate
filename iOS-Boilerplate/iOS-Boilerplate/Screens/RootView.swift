@@ -22,7 +22,7 @@ struct RootView: View {
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .newsSourcesList:
-                        NewsSourcesListView()
+                        NewsSourcesListView(viewModel: NewsSourcesListViewModel(database: appDatabase))
                     case .newsListScreen(let query, let sourceId):
                         NewsListView(viewModel: NewsListViewModel(query: query, sourceId: sourceId))
                     case .newsDetail(let article):

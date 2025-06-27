@@ -10,7 +10,7 @@ import SwiftUI
 struct NewsSourcesListView: View {
     
     @Environment(NavigationRouter.self) var router
-    @Bindable private var viewModel = NewsSourcesListViewModel()
+    @Bindable var viewModel: NewsSourcesListViewModel
     
     var body: some View {
         VStack {
@@ -19,15 +19,22 @@ struct NewsSourcesListView: View {
                 EmptyView()
             case .loading:
                 ProgressView()
-            case .loaded(let sources):
-                List(sources) { source in
+            case .loaded(_, _):
+                List(viewModel.uiState.sourcesToShow) { source in
                     VStack(alignment: .leading) {
                         HStack {
                             Text(source.name)
                                 .font(.title)
                             Spacer()
-                            Image(systemName: "heart")
+                            Image(systemName: source.favourite ? "heart.fill" : "heart" )
                                 .foregroundStyle(Color.red)
+                                .onTapGesture {
+                                    if source.favourite {
+                                        viewModel.removeFavouriteSource(source: source)
+                                    } else {
+                                        viewModel.addFavouriteSource(source: source)
+                                    }
+                                }
                         }
                         Text(source.url)
                             .font(.subheadline)
@@ -66,6 +73,11 @@ struct NewsSourcesListView: View {
                     Text("News Sources")
                 }
             }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Show only favourites") {
+                    viewModel.toggleShowOnlyFavourites()
+                }
+            }
         }
         .onAppear {
             viewModel.loadSources()
@@ -74,5 +86,5 @@ struct NewsSourcesListView: View {
 }
 
 #Preview {
-    NewsSourcesListView()
+    NewsSourcesListView(viewModel: NewsSourcesListViewModel(database: AppDatabase.empty()))
 }
