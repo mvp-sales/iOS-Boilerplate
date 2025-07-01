@@ -14,10 +14,12 @@ final class NewsListViewModel {
     
     let query: String
     let sourceId: String
+    private let repository: NewsRepository
     
-    init(query: String = "", sourceId: String = "") {
+    init(query: String = "", sourceId: String = "", repository: NewsRepository) {
         self.query = query
         self.sourceId = sourceId
+        self.repository = repository
     }
     
     func loadArticles() {
@@ -54,28 +56,35 @@ final class NewsListViewModel {
             sources: [sourceId],
             page: lastLoadedPage + 1
         )
+        
+        let query = SearchNewsQuery(
+            searchType: .everything,
+            searchTerm: self.query,
+            sources: [sourceId],
+            page: lastLoadedPage + 1
+        )
 
         Task {
-            let result = await api.getNews(request: request)
+            let result = await repository.getNews(query: query)
             switch result {
-            case .success(let response):
+            case .success(let newsPage):
                 if case let .loaded(loadedData) = uiState {
                     uiState = .loaded(
                         LoadedData(
-                            articles: loadedData.articles + response.articles.map { $0.toEntity() },
+                            articles: loadedData.articles + newsPage.articles,
                             lastLoadedPage: lastLoadedPage + 1,
                             isLoadingMore: false,
-                            totalResultsCount: response.totalResults,
+                            totalResultsCount: newsPage.totalResults,
                             searchType: .everything
                         )
                     )
                 } else {
                     uiState = .loaded(
                         LoadedData(
-                            articles: response.articles.map { $0.toEntity() },
+                            articles: newsPage.articles,
                             lastLoadedPage: 1,
                             isLoadingMore: false,
-                            totalResultsCount: response.totalResults,
+                            totalResultsCount: newsPage.totalResults,
                             searchType: .everything
                         )
                     )

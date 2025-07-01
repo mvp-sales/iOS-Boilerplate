@@ -85,6 +85,6 @@ struct NewsSourcesListView: View {
     }
 }
 
-#Preview {
+/*#Preview {
     NewsSourcesListView(viewModel: NewsSourcesListViewModel(database: AppDatabase.empty()))
-}
+}*/

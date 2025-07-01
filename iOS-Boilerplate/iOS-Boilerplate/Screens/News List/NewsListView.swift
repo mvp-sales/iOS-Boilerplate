@@ -98,6 +98,6 @@ fileprivate struct NewsContent: View {
     }
 }
 
-#Preview {
+/*#Preview {
     NewsListView(viewModel: NewsListViewModel())
-}
+}*/

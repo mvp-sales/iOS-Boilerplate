@@ -15,23 +15,21 @@ final class NewsSourcesListViewModel {
     var uiState: UiState = .initial
     private var api = NewsAPI()
     private let database: AppDatabase
+    private let repository: SourcesRepository
     
-    init(database: AppDatabase) {
+    init(database: AppDatabase, repository: SourcesRepository) {
         self.database = database
+        self.repository = repository
     }
     
     func loadSources() {
         guard uiState != .loading else { return }
         uiState = .loading
         Task {
-            let result = await api.getHeadlinesSources(request: .init(category: ""))
+            let result = await repository.getSources()
             switch result {
-            case .success(let response):
-                let favouriteSources = (try? await database.getAllNewsSources().map { $0.toDomain() }) ?? []
-                let fullSources = response.sources.map { source in
-                    favouriteSources.first(where: { $0.id == source.id }) ?? source.toDomain()
-                }
-                self.uiState = .loaded(fullSources, false)
+            case .success(let sources):
+                self.uiState = .loaded(sources, false)
             case .failure(let error):
                 self.uiState = .error(GenericError(message: error.message))
             }
@@ -40,8 +38,7 @@ final class NewsSourcesListViewModel {
     
     func addFavouriteSource(source: NewsSource) {
         Task {
-            var sourceEntity = source.toEntity()
-            try? database.saveNewsSource(&sourceEntity)
+            repository.addFavouriteSource(source: source)
             if case let .loaded(sources, showOnlyFavourites) = self.uiState {
                 let updatedSources = sources.map {
                     if $0.id == source.id {
@@ -57,7 +54,7 @@ final class NewsSourcesListViewModel {
     
     func removeFavouriteSource(source: NewsSource) {
         Task {
-            try? database.deleteNewsSource(by: source.id)
+            repository.removeFavouriteSource(source: source)
             if case let .loaded(sources, showOnlyFavourites) = self.uiState {
                 let updatedSources = sources.map {
                     if $0.id == source.id {
