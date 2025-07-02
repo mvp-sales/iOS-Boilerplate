@@ -10,17 +10,17 @@ import Foundation
 @Observable
 final class NewsSavedListViewModel {
     var uiState: UiState = .initial
-    private let appDatabase: AppDatabase
+    private let repository: NewsRepository
     
-    init(appDatabase: AppDatabase) {
-        self.appDatabase = appDatabase
+    init(repository: NewsRepository) {
+        self.repository = repository
     }
     
     func loadSavedNews() {
         uiState = .loading
         Task {
-            let savedNews = try! await appDatabase.getAllArticles()
-            self.uiState = .loaded(savedNews.map { $0.toDomain() })
+            let savedNews = await repository.getSavedArticles()
+            self.uiState = .loaded(savedNews)
         }
     }
     

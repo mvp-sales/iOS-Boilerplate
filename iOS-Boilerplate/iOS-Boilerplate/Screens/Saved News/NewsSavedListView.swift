@@ -81,6 +81,6 @@ fileprivate struct NewsContent: View {
     }
 }
 
-#Preview {
+/*#Preview {
     NewsSavedListView(viewModel: NewsSavedListViewModel(appDatabase: AppDatabase.empty()))
-}
+}*/

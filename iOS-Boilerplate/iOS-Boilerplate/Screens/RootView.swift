@@ -11,6 +11,7 @@ struct RootView: View {
     
     @Environment(NavigationRouter.self) var router
     @Environment(\.appDatabase) var appDatabase
+    @Environment(\.api) var newsApi
     
     var body: some View {
         let pathBinding = Binding(
@@ -24,9 +25,8 @@ struct RootView: View {
                     case .newsSourcesList:
                         NewsSourcesListView(
                             viewModel: NewsSourcesListViewModel(
-                                database: appDatabase,
                                 repository: SourcesRepositoryImpl(
-                                    newsApi: NewsAPI(),
+                                    newsApi: newsApi,
                                     database: appDatabase
                                 )
                             )
@@ -37,15 +37,30 @@ struct RootView: View {
                                 query: query,
                                 sourceId: sourceId,
                                 repository: NewsRepositoryImpl(
-                                    newsApi: NewsAPI(),
+                                    newsApi: newsApi,
                                     database: appDatabase
                                 )
                             )
                         )
                     case .newsDetail(let article):
-                        NewsDetailView(viewModel: NewsDetailViewModel(article: article, database: appDatabase))
+                        NewsDetailView(
+                            viewModel: NewsDetailViewModel(
+                                article: article,
+                                repository: NewsRepositoryImpl(
+                                    newsApi: newsApi,
+                                    database: appDatabase
+                                )
+                            )
+                        )
                     case .newsSavedList:
-                        NewsSavedListView(viewModel: NewsSavedListViewModel(appDatabase: appDatabase))
+                        NewsSavedListView(
+                            viewModel: NewsSavedListViewModel(
+                                repository: NewsRepositoryImpl(
+                                    newsApi: newsApi,
+                                    database: appDatabase
+                                )
+                            )
+                        )
                     }
                 }
         }.environment(router)

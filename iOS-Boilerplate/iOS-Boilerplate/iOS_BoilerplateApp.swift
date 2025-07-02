@@ -28,6 +28,7 @@ struct iOS_BoilerplateApp: App {
             RootView()
                 .environment(NavigationRouter())
                 .appDatabase(.shared)
+                .newsApi(NewsAPI())
         }
         .modelContainer(sharedModelContainer)
     }
@@ -36,10 +37,15 @@ struct iOS_BoilerplateApp: App {
 
 extension EnvironmentValues {
     @Entry var appDatabase = AppDatabase.empty()
+    @Entry var api = NewsAPI()
 }
 
 extension View {
     func appDatabase(_ appDatabase: AppDatabase) -> some View {
         self.environment(\.appDatabase, appDatabase)
+    }
+    
+    func newsApi(_ newsApi: NewsAPI) -> some View {
+        self.environment(\.api, newsApi)
     }
 }

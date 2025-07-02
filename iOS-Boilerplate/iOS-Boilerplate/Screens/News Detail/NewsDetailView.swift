@@ -79,7 +79,7 @@ struct NewsDetailView: View {
     }
 }
 
-#Preview {
+/*#Preview {
     NewsDetailView(
         viewModel: NewsDetailViewModel(
             article: ArticleNews(
@@ -98,4 +98,4 @@ struct NewsDetailView: View {
             database: AppDatabase.empty()
         )
     )
-}
+}*/

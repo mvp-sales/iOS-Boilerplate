@@ -13,12 +13,9 @@ final class NewsSourcesListViewModel {
     var sources: [NewsSource] = []
     var error: GenericError?
     var uiState: UiState = .initial
-    private var api = NewsAPI()
-    private let database: AppDatabase
     private let repository: SourcesRepository
     
-    init(database: AppDatabase, repository: SourcesRepository) {
-        self.database = database
+    init(repository: SourcesRepository) {
         self.repository = repository
     }
     

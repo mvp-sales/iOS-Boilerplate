@@ -11,26 +11,23 @@ import Foundation
 final class NewsDetailViewModel {
     var uiState: UiState = .initial
     let article: ArticleNews
-    private let database: AppDatabase
+    private let repository: NewsRepository
     
-    init(article: ArticleNews, database: AppDatabase) {
+    init(article: ArticleNews, repository: NewsRepository) {
         self.article = article
-        self.database = database
+        self.repository = repository
     }
     
     func saveArticle() {
-        //uiState = .loading
-        var entity = article.toEntity()
         Task {
-            try? database.saveArticleNews(&entity)
+            repository.saveArticle(article: article)
             uiState = .loaded(true)
         }
     }
     
     func deleteArticle() {
-        //uiState = .loading
         Task {
-            try? database.deleteArticle(by: article.url)
+            repository.deleteArticle(articleUrl: article.url)
             uiState = .loaded(false)
         }
     }
@@ -38,7 +35,7 @@ final class NewsDetailViewModel {
     func getArticleSaved() {
         uiState = .loading
         Task {
-            let article = try? await database.getArticle(by: article.url)
+            let article = await repository.getArticle(articleUrl: article.url)
             uiState = .loaded(article != nil)
         }
     }
