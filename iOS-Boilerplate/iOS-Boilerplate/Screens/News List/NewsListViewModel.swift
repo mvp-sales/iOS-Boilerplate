@@ -10,7 +10,6 @@ import Foundation
 @Observable
 final class NewsListViewModel {
     var uiState: UiState = .initial
-    private var api = NewsAPI()
     
     let query: String
     let sourceId: String
@@ -50,13 +49,6 @@ final class NewsListViewModel {
             lastLoadedPage = 0
         }
 
-        let request = GetNewsRequest(
-            searchType: .everything,
-            query: self.query,
-            sources: [sourceId],
-            page: lastLoadedPage + 1
-        )
-        
         let query = SearchNewsQuery(
             searchType: .everything,
             searchTerm: self.query,
