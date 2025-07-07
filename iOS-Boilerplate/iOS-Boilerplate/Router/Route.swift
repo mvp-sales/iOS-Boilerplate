@@ -10,7 +10,7 @@ import SwiftUI
 
 enum Route: Hashable {
     case newsSourcesList
-    case newsListScreen(String, String)
+    case newsListScreen(String, String, Bool)
     case newsDetail(ArticleNews)
     case newsSavedList
 }

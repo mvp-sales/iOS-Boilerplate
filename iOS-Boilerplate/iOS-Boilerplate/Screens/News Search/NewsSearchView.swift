@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NewsSearchView: View {
     @State private var searchTerm = ""
+    @State private var isFavouriteSourcesOnly = false
     @Environment(NavigationRouter.self) var router
     
     var body: some View {
@@ -21,9 +22,13 @@ struct NewsSearchView: View {
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
             
+            Toggle(isOn: $isFavouriteSourcesOnly) {
+                Text("Show only from favourite sources")
+            }.padding(.horizontal, 16)
+            
             Button("Search news") {
                 guard !searchTerm.isEmpty else { return }
-                router.push(to: .newsListScreen(searchTerm, ""))
+                router.push(to: .newsListScreen(searchTerm, "", isFavouriteSourcesOnly))
             }.buttonStyle(.borderedProminent)
             
             Button("Saved news list") {

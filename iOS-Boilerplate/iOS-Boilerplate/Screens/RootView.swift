@@ -31,12 +31,17 @@ struct RootView: View {
                                 )
                             )
                         )
-                    case .newsListScreen(let query, let sourceId):
+                    case .newsListScreen(let query, let sourceId, let isFavouriteSourcesOnly):
                         NewsListView(
                             viewModel: NewsListViewModel(
                                 query: query,
                                 sourceId: sourceId,
+                                showFavouriteSourcesOnly: isFavouriteSourcesOnly,
                                 repository: NewsRepositoryImpl(
+                                    newsApi: newsApi,
+                                    database: appDatabase
+                                ),
+                                sourcesRepository: SourcesRepositoryImpl(
                                     newsApi: newsApi,
                                     database: appDatabase
                                 )

@@ -13,12 +13,22 @@ final class NewsListViewModel {
     
     let query: String
     let sourceId: String
+    let showFavouriteSourcesOnly: Bool
     private let repository: NewsRepository
+    private let sourcesRepository: SourcesRepository
     
-    init(query: String = "", sourceId: String = "", repository: NewsRepository) {
+    init(
+        query: String = "",
+        sourceId: String = "",
+        showFavouriteSourcesOnly: Bool = false,
+        repository: NewsRepository,
+        sourcesRepository: SourcesRepository
+    ) {
         self.query = query
         self.sourceId = sourceId
+        self.showFavouriteSourcesOnly = showFavouriteSourcesOnly
         self.repository = repository
+        self.sourcesRepository = sourcesRepository
     }
     
     func loadArticles() {
@@ -49,14 +59,23 @@ final class NewsListViewModel {
             lastLoadedPage = 0
         }
 
-        let query = SearchNewsQuery(
-            searchType: .everything,
-            searchTerm: self.query,
-            sources: [sourceId],
-            page: lastLoadedPage + 1
-        )
-
         Task {
+            let sources: [String]
+            if !sourceId.isEmpty {
+                sources = [sourceId]
+            } else if showFavouriteSourcesOnly {
+                sources = await sourcesRepository.favouriteSources().map { $0.id }
+            } else {
+                sources = []
+            }
+            
+            let query = SearchNewsQuery(
+                searchType: .everything,
+                searchTerm: self.query,
+                sources: sources,
+                page: lastLoadedPage + 1
+            )
+            
             let result = await repository.getNews(query: query)
             switch result {
             case .success(let newsPage):
